@@ -3,28 +3,33 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Server {
 	public static void main(String args[]) throws IOException{
-		
-		ServerSocket serverSocket = new ServerSocket(7001);
-		System.out.println("Server ready to listen ");
-		
-		Socket socket = null;
+
+		//List<Socket> sockets = new ArrayList<Socket>();
+		//Vector<Socket> sockets = new Vector<Socket>();
+		ConcurrentLinkedQueue<Socket> sockets = new ConcurrentLinkedQueue<Socket>();
+
+
+		ClientHandler cHandler = new ClientHandler(sockets);
+		cHandler.setDaemon(true);
+		cHandler.start();
+
+		ServerSocket ss = new ServerSocket(3346);
 		boolean flag = true;
-		
+
 		while(flag){
-			socket = serverSocket.accept();
-			InputStream inputStream = socket.getInputStream();
-			DataInputStream dataInputStream = new DataInputStream(inputStream);
-			
-			System.out.println(dataInputStream.readUTF());
+
+			System.out.println("server ready to listen new connection ...... ");
+			Socket s = ss.accept();
+			sockets.add(s);
+
+			//cHandler.addNewConnection(s);
+
 		}
-		
-		
-		socket.close();
-		serverSocket.close();
-		
+		//cHandler.stopHandler();
 	}
 }
 
