@@ -1,32 +1,27 @@
-import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Server {
 	public static void main(String args[]) throws IOException{
-
-		//List<Socket> sockets = new ArrayList<Socket>();
-		//Vector<Socket> sockets = new Vector<Socket>();
-		ConcurrentLinkedQueue<Socket> sockets = new ConcurrentLinkedQueue<Socket>();
+		ConcurrentLinkedQueue<Socket> socketConcurrentLinkedQueue = new ConcurrentLinkedQueue<Socket>();
 
 
-		ClientHandler cHandler = new ClientHandler(sockets);
+		ClientHandler cHandler = new ClientHandler(socketConcurrentLinkedQueue);
 		cHandler.setDaemon(true);
 		cHandler.start();
 
-		ServerSocket ss = new ServerSocket(3346);
+		ServerSocket serverSocket = new ServerSocket(3346);
 		boolean flag = true;
 
 		while(flag){
 
 			System.out.println("server ready to listen new connection ...... ");
-			Socket s = ss.accept();
-			sockets.add(s);
+			Socket socket = serverSocket.accept();
+			socketConcurrentLinkedQueue.add(socket);
 
-			//cHandler.addNewConnection(s);
+			//cHandler.addNewConnection(socket);
 
 		}
 		//cHandler.stopHandler();
