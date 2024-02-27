@@ -1,16 +1,10 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Server {
-	public static void main(String args[]) throws IOException{
-		ConcurrentLinkedQueue<Socket> socketConcurrentLinkedQueue = new ConcurrentLinkedQueue<Socket>();
-
-
-		ClientHandler cHandler = new ClientHandler(socketConcurrentLinkedQueue);
-		cHandler.setDaemon(true);
-		cHandler.start();
+	public static void main(String[] args) throws IOException{
+	//	ConcurrentLinkedQueue<Socket> socketConcurrentLinkedQueue = new ConcurrentLinkedQueue<>();
 
 		ServerSocket serverSocket = new ServerSocket(3346);
 		boolean flag = true;
@@ -19,7 +13,10 @@ public class Server {
 
 			System.out.println("server ready to listen new connection ...... ");
 			Socket socket = serverSocket.accept();
-			socketConcurrentLinkedQueue.add(socket);
+
+			ClientHandler cHandler = new ClientHandler(socket);
+			cHandler.setDaemon(true);
+			cHandler.start();
 
 			//cHandler.addNewConnection(socket);
 
