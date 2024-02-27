@@ -14,7 +14,7 @@ public class Client2 {
             DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
             DataInputStream dataInputStream = new DataInputStream(inputStream);
 
-            int i = 1;
+            int i = 100;
             boolean flag = true;
 
             while (flag) {

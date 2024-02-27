@@ -28,7 +28,7 @@ public class ClientHandler extends Thread {
                 if (dataInputStream.available() > 0) {
 
                     int rcvFrmClient = dataInputStream.readInt();
-                    System.out.println("request from client : " + rcvFrmClient);
+                    System.out.println("request from client port " +socket.getPort()+" : "+ rcvFrmClient);
                     dataOutputStream.writeInt(rcvFrmClient + 5);
                 }
                 /*dataInputStream.close();
